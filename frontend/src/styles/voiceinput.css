@@ -1,0 +1,60 @@
+.voice-input-container {
+  margin-top: 1rem;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 6px;
+  background-color: #f9fafb;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.start-btn, .stop-btn {
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.start-btn {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+.stop-btn {
+  background-color: #ef4444;
+  color: #fff;
+}
+
+.transcript-box {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  border-radius: 4px;
+}
+
+.transcript {
+  font-size: 1rem;
+  color: #111827;
+  margin-top: 0.5rem;
+}
+
+.label {
+  font-weight: bold;
+  color: #1e3a8a;
+}
+
+.listening-status {
+  margin-top: 0.5rem;
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.error-text {
+  color: red;
+  font-weight: bold;
+}

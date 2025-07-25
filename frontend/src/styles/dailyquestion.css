@@ -1,0 +1,131 @@
+/* dailyquestion.css */
+
+.daily-question-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  margin: 20px auto;
+  transition: transform 0.3s ease;
+}
+
+.daily-question-card:hover {
+  transform: translateY(-4px);
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.card-content {
+  font-size: 1rem;
+  color: #444;
+}
+
+.question-text {
+  margin-bottom: 12px;
+}
+
+.question-meta {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+.answer-section {
+  margin-top: 16px;
+}
+
+.answer-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.submit-btn,
+.next-question-btn {
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submit-btn {
+  background-color: #2563eb; /* blue-600 */
+  color: white;
+}
+
+.submit-btn:hover {
+  background-color: #1d4ed8; /* blue-700 */
+}
+
+.next-question-btn {
+  background-color: #10b981; /* green-500 */
+  color: white;
+}
+
+.next-question-btn:hover {
+  background-color: #059669; /* green-600 */
+}
+
+.submission-message {
+  margin-top: 12px;
+  font-style: italic;
+  color: #10b981;
+}
+
+
+.dq-card {
+  position: relative;
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
+  transition: 0.3s ease-in-out;
+}
+
+.dq-badge {
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  background: linear-gradient(135deg, #02617b, #650453e9);
+  color: white;
+  padding: 8px 14px;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 0 0 12px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+/* dailyquestion.css */
+.dq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dq-timer {
+  font-weight: bold;
+  font-size: 14px;
+  color: #f77;
+}

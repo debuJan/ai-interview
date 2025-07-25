@@ -1,0 +1,199 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #2470e2;
+  height: 100vh;
+  overflow: hidden; /* Prevent double scrollbar on body */
+}
+
+.lld-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 280px;
+  background-color: #1e3a8a;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem;
+}
+
+.sidebar h2 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.sidebar li {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.3rem;
+  border-radius: 4px;
+  background-color: #1e40af;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+
+.sidebar li:hover,
+.sidebar li.active {
+  background-color: #2563eb;
+}
+
+.start-btn {
+  background-color: #10b981;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+.start-btn:hover {
+  background-color: #059669;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  background-color: #221313;
+}
+
+.main-content h2 {
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+}
+
+.main-content p {
+  color: #475569;
+  font-size: 1.05rem;
+}
+
+.main-content ul {
+  padding-left: 1.2rem;
+  color: #334155;
+}
+
+blockquote {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  background-color: #5b83ab;
+  border-left: 4px solid #2563eb;
+  font-style: italic;
+  color: #334155;
+}
+
+.mock-interview {
+  background-color: #f1f5f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.mock-interview textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #a34040;
+  margin-top: 1rem;
+}
+
+.next-btn {
+  margin-top: 1rem;
+  background-color: #2563eb;
+  color: #e81818;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.next-btn:hover {
+  background-color: #1e40af;
+}
+
+.placeholder {
+  color: #64748b;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.voice-input-btn {
+  background-color: #10b981;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.voice-input-btn:hover {
+  background-color: #059669;
+}
+
+
+/* Larger and clean answer box for mock interview */
+.lld-answer-box {
+  width: 100%;
+  height: 280px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: "Courier New", monospace;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #fcfbfb;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  resize: vertical;
+  margin-top: 1rem;
+}
+
+/* Scrollable main area on overflow */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  background-color: #ab4e4e;
+  max-height: 100vh;
+  box-sizing: border-box;
+}
+
+.code-block {
+  background-color: #1e293b; /* dark blue */
+  color: #c4c423; /* light text */
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  overflow-x: auto;
+  margin-top: 1rem;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+
+/* Ensure mock interview section is cleanly separated */
+.mock-interview {
+  background-color: #2e71b4;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}

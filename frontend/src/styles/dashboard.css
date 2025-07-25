@@ -1,0 +1,507 @@
+/* === Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* === Theme Variables === */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --card-bg: #f2f2f2;
+  --btn-bg: #1e3378;
+  --btn-text: #ffffff;
+}
+
+[data-theme="dark"] {
+  --bg-color: #111927;
+  --text-color: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.12);
+  --btn-bg: #ffffff;
+  --btn-text: #111927;
+}
+
+/* === Base Body === */
+body, html {
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #111927, #1e3378);
+  background-size: 400% 400%;
+  animation: bgShift 18s ease infinite;
+  color: var(--text-color);
+  transition: background 0.4s ease, color 0.3s ease;
+}
+
+/* === Background Gradient Animation === */
+@keyframes bgShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* === Wrapper Layout === */
+.dashboard-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.theme-toggle-wrapper {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+}
+
+/* === Dashboard Flex Layout === */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* === Sidebar === */
+.sidebar {
+  width: 250px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  backdrop-filter: blur(10px);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.profile-section {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  margin-bottom: 0.5rem;
+  background-color: #555;
+}
+
+/* === Sidebar Button === */
+.sidebar-btn {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  background-color: var(--btn-bg);
+  border: none;
+  border-radius: 8px;
+  color: var(--btn-text);
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.sidebar-btn:hover {
+  background: #ff7f50;
+  color: #000;
+  transform: scale(1.03);
+}
+
+/* === Main Content Area === */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: transparent;
+  overflow-y: auto;
+  color: var(--text-color);
+}
+
+/* === Welcome Card === */
+.welcome-card {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 24px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  transition: background 0.3s ease;
+}
+
+.welcome-card h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-card p {
+  font-size: 1rem;
+  color: #ccc;
+}
+
+/* === Grid Buttons (Cards) === */
+.grid-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  color: var(--text-color);
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-6px);
+}
+
+.card h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: #ddd;
+}
+
+/* === Animations === */
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Scrollbar Styling === */
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+.main-content::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 4px;
+}
+
+/* === Responsive Sidebar for Smaller Screens === */
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    width: 100%;
+    padding: 1rem;
+    justify-content: space-around;
+  }
+
+  .sidebar-btn {
+    width: auto;
+    padding: 0.5rem 1rem;
+  }
+
+  .profile-pic {
+    width: 60px;
+    height: 60px;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+}
+
+
+.sidebar {
+  position: relative;
+}
+
+.dark-mode-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: yellow;
+}
+
+
+
+.profile-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.profile-circle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid white;
+  background-color: #333;
+}
+
+#profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.plus-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #ff7f50;
+  color: white;
+  font-size: 1rem;
+  border-radius: 50%;
+  padding: 2px 6px;
+  transform: translate(25%, 25%);
+  font-weight: bold;
+}
+
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #4caf50;
+  transition: width 0.6s ease;
+}
+
+.progress-text {
+  font-size: 0.75rem;
+  color: #ccc;
+}
+
+
+.daily-question-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.daily-question-card {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom right, #ffffff, #e3e3ff);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #333;
+}
+
+.daily-question-card .card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.7rem;
+}
+
+.daily-question-card .question-text {
+  font-size: 0.9rem;
+  margin-bottom: 0.7rem;
+}
+
+.daily-question-card .question-meta {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.daily-question-card textarea,
+.daily-question-card .button-group {
+  display: none; /* Hide interaction to keep it clean */
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+}
+
+/* Mobile First */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10px;
+  overflow-x: auto;
+}
+
+.main-content {
+  padding: 10px;
+}
+
+.grid-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* For tablets and up */
+@media (min-width: 768px) {
+  .dashboard-container {
+    flex-direction: row;
+  }
+
+  .sidebar {
+    width: 250px;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .main-content {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .grid-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* For large screens */
+@media (min-width: 1024px) {
+  .grid-buttons {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* For hamburger button */
+.hamburger-btn {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001;
+  background: transparent;
+  font-size: 24px;
+  border: none;
+  color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background: var(--sidebar-bg);
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding-top: 60px; /* Avoid overlapping hamburger */
+  }
+
+  .dashboard-container {
+    flex-direction: column;
+  }
+}
+
+
+.daily-challenge-card {
+  position: relative;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.challenge-title {
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.challenge-question {
+  margin: 10px 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.challenge-meta {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.challenge-input {
+  resize: none;
+  height: 70px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 10px;
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+.submit-btn {
+  margin-top: 10px;
+  background-color: #1f3bb3;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #162a85;
+}
+
+

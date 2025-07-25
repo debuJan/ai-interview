@@ -1,0 +1,129 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f0f0;
+}
+
+.hrround-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 280px;
+  background-color: #1e3a8a;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem;
+}
+
+.sidebar h2 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1;
+}
+
+.sidebar li {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.3rem;
+  border-radius: 4px;
+  background-color: #1e40af;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+
+.sidebar li:hover,
+.sidebar li.active {
+  background-color: #2563eb;
+}
+
+.start-btn {
+  background-color: #10b981;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+.start-btn:hover {
+  background-color: #059669;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  background-color: #fff;
+}
+
+.main-content h2 {
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+}
+
+.main-content p {
+  color: #475569;
+  font-size: 1.05rem;
+}
+
+.main-content ul {
+  padding-left: 1.2rem;
+  color: #334155;
+}
+
+blockquote {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  background-color: #f1f5f9;
+  border-left: 4px solid #2563eb;
+  font-style: italic;
+  color: #334155;
+}
+
+.mock-interview {
+  background-color: #f1f5f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.mock-interview textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 1rem;
+}
+
+.next-btn {
+  margin-top: 1rem;
+  background-color: #2563eb;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.next-btn:hover {
+  background-color: #1e40af;
+}
+
+.placeholder {
+  color: #64748b;
+  text-align: center;
+  margin-top: 2rem;
+}

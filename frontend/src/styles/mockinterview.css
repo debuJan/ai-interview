@@ -1,0 +1,26 @@
+.mock-interview-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.rounds-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.rounds-list button {
+  padding: 1rem;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.rounds-list button:hover {
+  background-color: #005fd1;
+}
