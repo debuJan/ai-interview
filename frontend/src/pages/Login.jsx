@@ -1,60 +1,71 @@
-// src/pages/Login.jsx
+import React, { useState } from "react";
+import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import { supabase } from "../supabase"; // ✅ Your Supabase client
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../styles/login.css";
-import { useState } from "react";
 
-function Login() {
+const Login = () => {
+  const [identifier, setIdentifier] = useState(""); // email
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const email = e.target.email.value.trim();
-    const password = e.target.password.value;
-
-    if (!email || !password) {
-      alert("Please enter both email and password.");
-      return;
-    }
-
     try {
-      setLoading(true);
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
+      // ✅ POST request to backend
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email: identifier,
         password,
       });
 
-      if (error) throw error;
+      toast.success(res.data?.message || "Login successful!");
 
-      console.log("✅ Login success:", data);
+      // Save token & user
+      if (res.data?.token) localStorage.setItem("token", res.data.token);
+      if (res.data?.user) {
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("userId", res.data.user._id);
+      }
+
+      // Navigate to dashboard
       navigate("/dashboard");
     } catch (err) {
-      console.error("❌ Login error:", err.message || err);
-      alert("Login failed: " + (err.message || "Unknown error"));
-    } finally {
-      setLoading(false);
+      const msg =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Login failed";
+      toast.error(msg);
+      console.error("Login error:", err);
     }
   };
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <h2>Welcome Back</h2>
-        <form onSubmit={handleLogin}>
-          <input type="email" name="email" placeholder="Email" required />
-          <input type="password" name="password" placeholder="Password" required />
-          <button type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
+    <div className="login-container">
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={identifier}
+          onChange={(e) => setIdentifier(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
 
-        <p>
-          Don’t have an account? <Link to="/">Signup</Link>
-        </p>
-      </div>
+      <p>
+        Don't have an account? <Link to="/signup">Sign up</Link>
+      </p>
     </div>
   );
-}
+};
 
 export default Login;

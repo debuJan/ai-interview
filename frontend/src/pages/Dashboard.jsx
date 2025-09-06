@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ThemeToggle from "../components/ThemeToggle";
 import DailyQuestion from "../components/DailyQuestion";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -14,10 +15,15 @@ const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState("");
 
+  const [questions, setQuestions] = useState([]); // Ensure default is array
+  const [loading, setLoading] = useState(true);
+
+  // Save profile image on update
   useEffect(() => {
     localStorage.setItem("profileImage", profileImage);
   }, [profileImage]);
 
+  // Handle image upload
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -29,6 +35,33 @@ const Dashboard = () => {
     }
   };
 
+  // Fetch HR questions on mount
+ useEffect(() => {
+  const fetchQuestions = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/questions?category=hr");
+
+      const data = response.data;
+
+      if (Array.isArray(data.data)) {
+        setQuestions(data.data); // ✅ correct access
+      } else {
+        console.error("Expected array but got:", data);
+        setQuestions([]);
+      }
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+      setQuestions([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchQuestions();
+}, []);
+
+
+  // Toggle sidebar for mobile
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -41,12 +74,12 @@ const Dashboard = () => {
     oa: 50,
   };
 
-  // ⏳ Countdown Timer for Daily Question
-   useEffect(() => {
+  // ⏳ Countdown Timer to Midnight (IST)
+  useEffect(() => {
     const calculateTimeLeft = () => {
-      const now = new Date();
-      const endOfDay = new Date();
-      endOfDay.setHours(23, 59, 59, 999); // Reset at midnight today
+      const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+      const endOfDay = new Date(now);
+      endOfDay.setHours(23, 59, 59, 999);
 
       const difference = endOfDay - now;
 
@@ -67,16 +100,14 @@ const Dashboard = () => {
     };
 
     const interval = setInterval(calculateTimeLeft, 1000);
-    calculateTimeLeft();
+    calculateTimeLeft(); // run immediately
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="dashboard-container">
-      {/* Hamburger Button for Mobile */}
-      <button className="hamburger-btn" onClick={toggleSidebar}>
-        ☰
-      </button>
+      {/* Hamburger for Mobile */}
+      <button className="hamburger-btn" onClick={toggleSidebar}>☰</button>
 
       {/* Sidebar */}
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
@@ -120,6 +151,7 @@ const Dashboard = () => {
         </div>
 
         <div className="grid-buttons">
+          {/* HR Section */}
           <div className="card" onClick={() => navigate("/dashboard/hr")}>
             <h2>👤 HR Round</h2>
             <p>Behavioral and general HR questions.</p>
@@ -129,6 +161,8 @@ const Dashboard = () => {
             <p className="progress-text">{progressData.hr}% Completed</p>
           </div>
 
+        
+          {/* Other Rounds */}
           <div className="card" onClick={() => navigate("/dashboard/lld")}>
             <h2>🧱 LLD Round</h2>
             <p>Low-level design & system understanding.</p>
@@ -165,6 +199,7 @@ const Dashboard = () => {
             <p className="progress-text">{progressData.oa}% Completed</p>
           </div>
 
+          {/* Daily Challenge */}
           <div className="card daily-question-circle">
             <div className="daily-header">
               <h3>🔥 Daily Challenge</h3>

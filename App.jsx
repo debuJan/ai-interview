@@ -10,6 +10,8 @@ import LLDRound from "./pages/LLDRound";
 import ResumeBuilder from "./pages/ResumeBuilder"; // ✅ Default import
 import InterviewTips from "./pages/InterviewTips";
 import MockInterview from "./pages/MockInterview";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import TechnicalRound from "./pages/TechnicalRound";
 import OARound from "./pages/OARound";
 
@@ -30,6 +32,9 @@ function App() {
   
 <Route path="/dashboard/MI" element={<MockInterview />} />
 </Routes>
+
+ {/* This renders the toast notifications container */}
+      <ToastContainer position="top-right" autoClose={3000} />
 
   );
 }

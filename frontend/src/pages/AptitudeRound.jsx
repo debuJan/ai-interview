@@ -1,135 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/aptituderound.css";
 import VoiceInput from "./VoiceInput";
+import axios from "axios"; // ✅ Import axios
 
-const aptitudeQuestions = [
-  {
-    title: "1. What is 15% of 200?",
-    content: (
-      <>
-        <p>What is 15 percent of 200?</p>
-        <h4>Explanation:</h4>
-        <p>15% = 15/100. ⇒ (15/100) × 200 = 30</p>
-        <h4>Answer:</h4>
-        <p><b>30</b></p>
-      </>
-    ),
-  },
-  {
-    title: "2. A train 150 meters long is running at 45 km/h. How much time will it take to cross a pole?",
-    content: (
-      <>
-        <p>Speed = 45 km/h ⇒ (45 × 1000) / 3600 = 12.5 m/s</p>
-        <h4>Explanation:</h4>
-        <p>Time = Distance / Speed = 150 / 12.5 = 12 seconds</p>
-        <h4>Answer:</h4>
-        <p><b>12 seconds</b></p>
-      </>
-    ),
-  },
-  {
-    title: "3. Find the next number in the series: 2, 6, 12, 20, 30, ?",
-    content: (
-      <>
-        <p>Number series following n² + n pattern.</p>
-        <h4>Explanation:</h4>
-        <p>1²+1=2, 2²+2=6, 3²+3=12... next is 6²+6 = 42</p>
-        <h4>Answer:</h4>
-        <p><b>42</b></p>
-      </>
-    ),
-  },
-  {
-    title: "4. What is the value of √81 + √16 - √25?",
-    content: (
-      <>
-        <p>Calculate square roots individually:</p>
-        <h4>Explanation:</h4>
-        <p>√81 = 9, √16 = 4, √25 = 5 ⇒ 9 + 4 - 5 = 8</p>
-        <h4>Answer:</h4>
-        <p><b>8</b></p>
-      </>
-    ),
-  },
-  {
-    title: "5. Two persons can do a piece of work in 12 and 8 days. How long will they take together?",
-    content: (
-      <>
-        <p>Work done in one day = 1/12 + 1/8 = (2+3)/24 = 5/24</p>
-        <h4>Explanation:</h4>
-        <p>Time = 24/5 = 4.8 days</p>
-        <h4>Answer:</h4>
-        <p><b>4.8 days</b></p>
-      </>
-    ),
-  },
-  {
-    title: "6. A number when divided by 5 leaves remainder 2, by 7 remainder 3. What’s the number?",
-    content: (
-      <>
-        <p>Find number satisfying: x % 5 = 2 and x % 7 = 3</p>
-        <h4>Explanation:</h4>
-        <p>Try numbers ⇒ 17 works.</p>
-        <h4>Answer:</h4>
-        <p><b>17</b></p>
-      </>
-    ),
-  },
-  {
-    title: "7. Find the average of: 5, 10, 15, 20, 25",
-    content: (
-      <>
-        <p>Average = Sum / Count = (5+10+15+20+25) / 5</p>
-        <h4>Answer:</h4>
-        <p><b>15</b></p>
-      </>
-    ),
-  },
-  {
-    title: "8. A shopkeeper sells a product for ₹120 with a profit of 20%. What is the cost price?",
-    content: (
-      <>
-        <p>Cost Price = SP × 100 / (100 + Profit%)</p>
-        <h4>Explanation:</h4>
-        <p>Cost Price = 120 × 100 / 120 = ₹100</p>
-        <h4>Answer:</h4>
-        <p><b>₹100</b></p>
-      </>
-    ),
-  },
-  {
-    title: "9. A car travels at 60 km/h for 2 hours and 80 km/h for 1 hour. What is the average speed?",
-    content: (
-      <>
-        <p>Total Distance = (60×2 + 80×1) = 200 km</p>
-        <h4>Explanation:</h4>
-        <p>Average speed = Total Distance / Total Time = 200 / 3 = 66.67 km/h</p>
-        <h4>Answer:</h4>
-        <p><b>66.67 km/h</b></p>
-      </>
-    ),
-  },
-  {
-    title: "10. What is the compound interest on ₹5000 at 10% p.a. for 2 years?",
-    content: (
-      <>
-        <p>CI = P[(1 + R/100)^T - 1]</p>
-        <h4>Explanation:</h4>
-        <p>CI = 5000[(1+0.1)² - 1] = 5000(1.21 - 1) = 5000×0.21 = ₹1050</p>
-        <h4>Answer:</h4>
-        <p><b>₹1050</b></p>
-      </>
-    ),
-  },
-];
-
-
- export default function AptitudeRound() {
+export default function AptitudeRound() {
+  const [questions, setQuestions] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [interviewStarted, setInterviewStarted] = useState(false);
   const [currentMockQuestion, setCurrentMockQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
   const [answerInput, setAnswerInput] = useState("");
+
+  // ✅ Fetch questions from backend
+  useEffect(() => {
+    fetch("http://localhost:5000/api/aptitude")
+      .then((res) => res.json())
+      .then((data) => setQuestions(data))
+      .catch((err) => console.error("Error fetching questions:", err));
+  }, []);
 
   const startMockInterview = () => {
     setInterviewStarted(true);
@@ -138,18 +26,35 @@ const aptitudeQuestions = [
     setAnswerInput("");
   };
 
-  const handleNext = () => {
-    setAnswers((prev) => ({
-      ...prev,
-      [aptitudeQuestions[currentMockQuestion].title]: answerInput, // ✅ FIXED here
-    }));
+  // ✅ Updated handleNext with POST to backend
+  const handleNext = async () => {
+    if (!questions[currentMockQuestion]) return;
+
+    const currentQuestion = questions[currentMockQuestion];
+    const updatedAnswers = {
+      ...answers,
+      [currentQuestion.question]: answerInput,
+    };
+
+    setAnswers(updatedAnswers);
     setAnswerInput("");
 
-    if (currentMockQuestion + 1 < aptitudeQuestions.length) {
+    try {
+      // ✅ Send current answer to backend
+      await axios.post("http://localhost:5000/api/aptitude/submit", {
+        question: currentQuestion.question,
+        answer: answerInput,
+      });
+      console.log("Answer saved to backend!");
+    } catch (err) {
+      console.error("Error saving answer:", err);
+    }
+
+    if (currentMockQuestion + 1 < questions.length) {
       setCurrentMockQuestion((prev) => prev + 1);
     } else {
-      alert("✅ Mock interview completed!\nCheck your answers in console.");
-      console.log("Your Answers:", answers);
+      alert("✅ Mock interview completed!");
+      console.log("Your Answers:", updatedAnswers);
       setInterviewStarted(false);
     }
   };
@@ -159,16 +64,16 @@ const aptitudeQuestions = [
       <aside className="sidebar">
         <h2>Aptitude Questions</h2>
         <ul>
-          {aptitudeQuestions.map((q, index) => (
+          {questions.map((q, index) => (
             <li
-              key={index}
+              key={q._id}
               className={selectedQuestion === index ? "active" : ""}
               onClick={() => {
                 setSelectedQuestion(index);
                 setInterviewStarted(false);
               }}
             >
-              {q.title}
+              {q.question.length > 30 ? q.question.slice(0, 30) + "..." : q.question}
             </li>
           ))}
         </ul>
@@ -181,16 +86,38 @@ const aptitudeQuestions = [
         {!interviewStarted ? (
           selectedQuestion !== null ? (
             <div className="question-display">
-              <h2>{aptitudeQuestions[selectedQuestion].title}</h2>
-              <div className="question-content">{aptitudeQuestions[selectedQuestion].content}</div>
+              <h2>Question {selectedQuestion + 1}</h2>
+              <p>{questions[selectedQuestion].question}</p>
+
+              {questions[selectedQuestion].options.length > 0 && (
+                <>
+                  <h4>Options:</h4>
+                  <ul>
+                    {questions[selectedQuestion].options.map((opt, i) => (
+                      <li key={i}>{opt}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              <h4>Answer:</h4>
+              <p><b>{questions[selectedQuestion].answer}</b></p>
             </div>
           ) : (
             <p className="placeholder">Select a question to view its details.</p>
           )
         ) : (
           <div className="mock-interview">
-            <h2>{aptitudeQuestions[currentMockQuestion].title}</h2>
-            <div className="question">{aptitudeQuestions[currentMockQuestion].content}</div>
+            <h2>Question {currentMockQuestion + 1}</h2>
+            <p>{questions[currentMockQuestion].question}</p>
+
+            {questions[currentMockQuestion].options.length > 0 && (
+              <ul>
+                {questions[currentMockQuestion].options.map((opt, i) => (
+                  <li key={i}>{opt}</li>
+                ))}
+              </ul>
+            )}
 
             <VoiceInput setText={setAnswerInput} />
 
@@ -202,7 +129,7 @@ const aptitudeQuestions = [
             />
 
             <button className="next-btn" onClick={handleNext}>
-              {currentMockQuestion + 1 === aptitudeQuestions.length ? "Finish" : "Next"}
+              {currentMockQuestion + 1 === questions.length ? "Finish" : "Next"}
             </button>
           </div>
         )}

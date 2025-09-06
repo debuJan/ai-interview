@@ -1,69 +1,60 @@
-// Load environment variables
-import dotenv from "dotenv";
-dotenv.config();
-
-// Import required packages
 import express from "express";
+import mongoose from "mongoose";
 import cors from "cors";
-import bodyParser from "body-parser";
-import { createClient } from "@supabase/supabase-js";
+import dotenv from "dotenv";
 
-// ✅ Initialize Express app
+// routes
+import authRoutes from "./routes/auth.js";
+import questionRoutes from "./routes/question.js";
+import aptiQuestionsRouter from "./routes/aptiQuestions.js";
+import hrQuestionsRouter from "./routes/hrQuestions.js";
+import interviewTipsRouter from "./routes/interviewTips.js";
+import lldQuestionsRouter from "./routes/lldQuestions.js";
+import oaQuestionsRouter from "./routes/oaQuestions.js";
+
+dotenv.config();
 const app = express();
+
+// middleware
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
-// ✅ Connect to Supabase
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
+// logger
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
 
-// ✅ Health check route
+// routes
+app.use("/api/auth", authRoutes);
+app.use("/api/questions", questionRoutes);
+app.use("/api/hr", hrQuestionsRouter);
+app.use("/api/aptitude", aptiQuestionsRouter);
+app.use("/api/interviewtips", interviewTipsRouter);
+app.use("/api/lld", lldQuestionsRouter);
+app.use("/api/oa", oaQuestionsRouter);
+
+// health check
 app.get("/", (req, res) => {
-  res.send("✅ Backend is working!");
+  res.send("✅ Backend working with MongoDB, Auth, and Question routes!");
 });
 
-// ✅ Save answer route
-app.post("/save-answer", async (req, res) => {
-  const { question, answer } = req.body;
-
-  try {
-    const { data, error } = await supabase
-      .from("interview_answers")
-      .insert([{ question, answer }])
-      .select();
-
-    if (error) {
-      console.error("❌ Supabase Insert Error:", error.message);
-      return res.status(500).json({ error: error.message });
-    }
-
-    res.status(200).json({ message: "Answer saved successfully", data });
-  } catch (err) {
-    res.status(500).json({ error: "Unexpected server error" });
-  }
+// global error handler
+app.use((err, req, res, next) => {
+  console.error("❌ Error:", err.stack);
+  res.status(500).json({ error: "Something went wrong!" });
 });
 
-// ✅ NEW: Get all answers
-app.get("/answers", async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from("interview_answers")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    }
-
-    res.status(200).json({ message: "Answers fetched successfully", data });
-  } catch (err) {
-    res.status(500).json({ error: "Unexpected server error" });
-  }
-});
-
-// ✅ Start the server
-app.listen(5000, () => {
-  console.log("🚀 Server running on http://localhost:5000");
-});
+// connect DB + start server
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () =>
+      console.log(`🚀 Server running at http://localhost:${PORT}`)
+    );
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection failed:", err.message);
+  });
